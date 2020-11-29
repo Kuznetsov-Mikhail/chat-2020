@@ -1,14 +1,25 @@
-import socket
-sock = socket.socket()
-sock.connect(('192.168.0.106', 8080))
+from socket import *
+import sys
 
-while True:
-    print("Enter your message or exit:")
-    msg = input()
-    #Message = 'MyMSG'
-    if (msg == 'exit'): 
-        break
-    sock.send(str(msg))
-    data = sock.recv(1024)
-    #sock.close()
-    print(data)
+host = 'localhost'
+port = 777
+addr = (host,port)
+
+tcp_socket = socket(AF_INET, SOCK_STREAM)
+tcp_socket.connect(addr)
+
+
+data = input('write to server: ')
+if not data : 
+    tcp_socket.close() 
+    sys.exit(1)
+
+#encode - перекодирует введенные данные в байты, decode - обратно
+data = str.encode(data)
+tcp_socket.send(data)
+data = bytes.decode(data)
+data = tcp_socket.recv(1024)
+print(data)
+
+
+tcp_socket.close()
