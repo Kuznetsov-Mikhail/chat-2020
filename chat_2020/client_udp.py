@@ -9,7 +9,7 @@ def read_mess_from_server():
 
 #####CLIENT##################
 if __name__ == '__main__':
-    server = '127.0.0.1', 9090
+    server = '192.168.0.106', 9090
     print('input nickname: ')
     name = str(input())
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
