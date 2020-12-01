@@ -1,45 +1,22 @@
-#Модуль socket для сетевого программирования
-from socket import *
+import socket
 
-#данные сервера
-host = 'localhost'
-port = 777
-addr = (host,port)
+sock = socket.socket()
+sock.bind(('', 8000))
+sock.listen(1)
+conn, addr = sock.accept()
 
-#socket - функция создания сокета 
-#первый параметр socket_family может быть AF_INET или AF_UNIX
-#второй параметр socket_type может быть SOCK_STREAM(для TCP) или SOCK_DGRAM(для UDP)
-tcp_socket = socket(AF_INET, SOCK_STREAM)
-#bind - связывает адрес и порт с сокетом
-tcp_socket.bind(addr)
-#listen - запускает прием TCP
-tcp_socket.listen(1)
-
-#Бесконечный цикл работы программы
+print 'connected:', addr
+count = 0
 while True:
-    
-    #Если мы захотели выйти из программы
-    question = input('Do you want to quit? y\\n: ')
-    if question == 'y': break
-    
-    print('wait connection...')
-    
-    #accept - принимает запрос и устанавливает соединение, (по умолчанию работает в блокирующем режиме)
-    #устанавливает новый сокет соединения в переменную conn и адрес клиента в переменную addr
-    conn, addr = tcp_socket.accept()
-    print('client addr: ', addr)
-    
-    #recv - получает сообщение TCP
     data = conn.recv(1024)
-    #если ничего не прислали, завершим программу
     if not data:
-        conn.close()
-        break
+        continue
     else:
+        print('Message from ' + str(addr) + ":")
         print(data)
-        #send - передает сообщение TCP
-        conn.send(b'Hello from server!')
-        #close - закрывает сокет
-        conn.close()
-    
-tcp_socket.close()
+        msg = raw_input()
+        if (msg == 'exit'): 
+            break
+        conn.send(str(msg))
+
+conn.close()
