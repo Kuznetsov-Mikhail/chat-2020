@@ -1,22 +1,38 @@
 import socket
+import requests
 
+print("Server started... ")
 sock = socket.socket()
-sock.bind(('', 8000))
-sock.listen(1)
-conn, addr = sock.accept()
+def connection(sock):
+    sock.bind(('', 9999))
+    sock.listen(1)
+    conn, addr = sock.accept()
+    return conn, addr
+conn, addr = connection(sock)
 
-print 'connected:', addr
-count = 0
+print('connected:', addr)
+triger = True
 while True:
-    data = conn.recv(1024)
-    if not data:
-        continue
-    else:
-        print('Message from ' + str(addr) + ":")
-        print(data)
-        msg = raw_input()
-        if (msg == 'exit'): 
+    try:
+        if triger is True: 
+            data = conn.recv(1024)
+        if 'exit done' in data:
+            print("client: closed")
+            conn.close()
             break
-        conn.send(str(msg))
+        if triger is True: 
+            print(str(addr) + ": " + data)
+        print("Enter your message or exit: ")
+        msg = raw_input()
+        if (msg == 'exit'):
+            conn.send(str("exit done"))
+            conn.close() 
+            break
 
+        response = requests.get('https://www.google.com')
+        triger = True
+        conn.send("server: " + msg)
+    except requests.ConnectionError:
+        print('ConnectionError')
+        triger = False
 conn.close()
