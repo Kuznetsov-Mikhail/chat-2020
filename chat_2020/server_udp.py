@@ -2,7 +2,7 @@ import socket
 
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('localhost', 9999))
+    sock.bind(('localhost', 8080))
     clients = []
     print('start server')
     while True:

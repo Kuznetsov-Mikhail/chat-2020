@@ -12,10 +12,11 @@ def read_mess_from_server():
 
 #####CLIENT##################
 if __name__ == '__main__':
-    server = 'localhost', 9999
+    server = '192.168.1.38', 8080
     print('input nickname: ')
     name = str(input())
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #sock.bind(('192.168.1.38', 0))
     sock.bind(('', 0))
     sock.sendto((name +' connect').encode('utf-8'), server)
     thr = threading.Thread(target=read_mess_from_server)
