@@ -3,8 +3,8 @@ from ipaddress import *
 from datetime import datetime
 
 community_string = 'rpublic'  # From file
-#ip_address_host = '192.168.9.1'  # From file
-ip_address_host = '192.168.1.144'  # From file
+ip_address_host = '192.168.9.1'  # From file
+#ip_address_host = '192.168.1.144'  # From file
 port_snmp = 161
 OID_sysName = '.1.3.6.1.2.1.1.1.0'  # From SNMPv2-MIB hostname/sysname
 OID_blank = '.1.3.6.1.2.1.1.7.0'  # From SNMPv2-MIB hostname/sysname
@@ -24,5 +24,3 @@ def snmp_get_next(community, ip, port, OID):
 if __name__ == "__main__":
 	sysname = str(snmp_get_next(community_string, ip_address_host, port_snmp, OID_sysName))
 	print(sysname)
-
-

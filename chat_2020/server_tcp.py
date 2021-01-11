@@ -1,5 +1,7 @@
 import socket
 import requests
+import subprocess
+import time
 
 print("Server started... ")
 sock = socket.socket()
@@ -29,10 +31,18 @@ while True:
             conn.close() 
             break
 
-        response = requests.get('https://www.google.com')
+        response = requests.get('http://www.google.com')
+        #output = subprocess.check_output('ping 192.168.1.213')
+        #print(output)
+
         triger = True
         conn.send("server: " + msg)
     except requests.ConnectionError:
         print('ConnectionError')
         triger = False
+    except socket.error or ConnectionResetError:
+        conn.close()
+        time.sleep(0.1)
+        sock = socket.socket()
+        conn, addr = connection(sock)
 conn.close()

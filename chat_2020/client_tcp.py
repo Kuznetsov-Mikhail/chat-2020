@@ -2,7 +2,7 @@ import socket
 import requests
 
 sock = socket.socket()
-sock.connect(('localhost', 9999))
+sock.connect(('192.168.1.213', 8080))
 print("Enter your name:")
 name = raw_input()
 name = str(name)+ ": "

@@ -1,8 +1,18 @@
 import socket
+import time
 
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('localhost', 8080))
+    sock.bind(('', 8080))
+    # while True:
+    #     try:
+    #         sock.bind(('', 8080))
+    #         break
+    #     except OSError:
+    #         sock.close()
+    #         time.sleep(0.5)
+    #         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
     clients = []
     print('start server')
     while True:
@@ -16,10 +26,10 @@ def main():
                 if client == addr:
                     continue
                 sock.sendto(data, client)
-        except ConnectionResetError: continue
+        except ConnectionResetError: 
+            continue
     sock.close()
 
 
-######SERVER##############
 if __name__ == '__main__':
     main()
